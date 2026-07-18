@@ -1,0 +1,11 @@
+Crate Vintage Club 20 Neural Amp Model
+
+Source: https://www.tone3000.com/tones/crate-vintage-club-20-6515
+Creator: 240z
+Artifact SHA-256: 598ddaa30f89de9ffe020c33d9731083adea05bbf3be062751b3e3f54317bd5b
+License: CC0 1.0 Universal
+
+The creator has dedicated this model to the public domain under CC0 1.0.
+See https://creativecommons.org/publicdomain/zero/1.0/ for the complete legal
+text.
+

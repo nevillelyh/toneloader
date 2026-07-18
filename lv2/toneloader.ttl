@@ -1,0 +1,54 @@
+@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix opts: <http://lv2plug.in/ns/ext/options#> .
+@prefix patch: <http://lv2plug.in/ns/ext/patch#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix state: <http://lv2plug.in/ns/ext/state#> .
+@prefix units: <http://lv2plug.in/ns/extensions/units#> .
+@prefix urid: <http://lv2plug.in/ns/ext/urid#> .
+@prefix work: <http://lv2plug.in/ns/ext/worker#> .
+
+<urn:neville:toneloader>
+    a lv2:Plugin, lv2:SimulatorPlugin ;
+    doap:name "ToneLoader" ;
+    doap:license <https://spdx.org/licenses/MIT.html> ;
+    lv2:requiredFeature urid:map, work:schedule ;
+    lv2:optionalFeature state:threadSafeRestore ;
+    lv2:extensionData state:interface, work:interface ;
+    patch:writable
+        <urn:neville:toneloader#pedalModel>,
+        <urn:neville:toneloader#ampModel>,
+        <urn:neville:toneloader#irModel>,
+        <urn:neville:toneloader#pedalAudition>,
+        <urn:neville:toneloader#ampAudition>,
+        <urn:neville:toneloader#irAudition>,
+        <urn:neville:toneloader#pedalCancelAudition>,
+        <urn:neville:toneloader#ampCancelAudition>,
+        <urn:neville:toneloader#irCancelAudition> ;
+    lv2:port
+        [ a lv2:InputPort, atom:AtomPort ; lv2:index 0 ; lv2:symbol "control" ; lv2:name "Control" ; atom:bufferType atom:Sequence ; atom:supports patch:Message ],
+        [ a lv2:OutputPort, atom:AtomPort ; lv2:index 1 ; lv2:symbol "notify" ; lv2:name "Notify" ; atom:bufferType atom:Sequence ; atom:supports patch:Message ],
+        [ a lv2:InputPort, lv2:AudioPort ; lv2:index 2 ; lv2:symbol "input" ; lv2:name "Input" ],
+        [ a lv2:OutputPort, lv2:AudioPort ; lv2:index 3 ; lv2:symbol "output" ; lv2:name "Output" ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 4 ; lv2:symbol "pedal_bypass" ; lv2:name "Pedal Bypass" ; lv2:default 1 ; lv2:minimum 0 ; lv2:maximum 1 ; lv2:portProperty lv2:toggled ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 5 ; lv2:symbol "pedal_input" ; lv2:name "Pedal Input" ; lv2:default 0 ; lv2:minimum -20 ; lv2:maximum 20 ; units:unit units:db ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 6 ; lv2:symbol "pedal_output" ; lv2:name "Pedal Output" ; lv2:default 0 ; lv2:minimum -20 ; lv2:maximum 20 ; units:unit units:db ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 7 ; lv2:symbol "pedal_quality" ; lv2:name "Pedal Quality" ; lv2:default 1 ; lv2:minimum 0 ; lv2:maximum 1 ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 8 ; lv2:symbol "amp_bypass" ; lv2:name "Amp Bypass" ; lv2:default 0 ; lv2:minimum 0 ; lv2:maximum 1 ; lv2:portProperty lv2:toggled ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 9 ; lv2:symbol "amp_input" ; lv2:name "Amp Input" ; lv2:default 0 ; lv2:minimum -20 ; lv2:maximum 20 ; units:unit units:db ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 10 ; lv2:symbol "amp_output" ; lv2:name "Amp Output" ; lv2:default 0 ; lv2:minimum -20 ; lv2:maximum 20 ; units:unit units:db ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 11 ; lv2:symbol "amp_quality" ; lv2:name "Amp Quality" ; lv2:default 1 ; lv2:minimum 0 ; lv2:maximum 1 ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 12 ; lv2:symbol "ir_bypass" ; lv2:name "IR Bypass" ; lv2:default 1 ; lv2:minimum 0 ; lv2:maximum 1 ; lv2:portProperty lv2:toggled ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 13 ; lv2:symbol "ir_input" ; lv2:name "IR Input" ; lv2:default 0 ; lv2:minimum -20 ; lv2:maximum 20 ; units:unit units:db ],
+        [ a lv2:InputPort, lv2:ControlPort ; lv2:index 14 ; lv2:symbol "ir_wet" ; lv2:name "IR Wet" ; lv2:default 100 ; lv2:minimum 0 ; lv2:maximum 100 ; units:unit units:pc ] .
+
+<urn:neville:toneloader#pedalModel> a lv2:Parameter ; rdfs:label "Pedal model" ; rdfs:range atom:Path .
+<urn:neville:toneloader#ampModel> a lv2:Parameter ; rdfs:label "Amp model" ; rdfs:range atom:Path .
+<urn:neville:toneloader#irModel> a lv2:Parameter ; rdfs:label "IR model" ; rdfs:range atom:Path .
+<urn:neville:toneloader#pedalAudition> a lv2:Parameter ; rdfs:label "Pedal audition" ; rdfs:range atom:Path .
+<urn:neville:toneloader#ampAudition> a lv2:Parameter ; rdfs:label "Amp audition" ; rdfs:range atom:Path .
+<urn:neville:toneloader#irAudition> a lv2:Parameter ; rdfs:label "IR audition" ; rdfs:range atom:Path .
+<urn:neville:toneloader#pedalCancelAudition> a lv2:Parameter ; rdfs:label "Cancel pedal audition" ; rdfs:range atom:Path .
+<urn:neville:toneloader#ampCancelAudition> a lv2:Parameter ; rdfs:label "Cancel amp audition" ; rdfs:range atom:Path .
+<urn:neville:toneloader#irCancelAudition> a lv2:Parameter ; rdfs:label "Cancel IR audition" ; rdfs:range atom:Path .

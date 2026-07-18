@@ -188,6 +188,11 @@ documented change.
 
 ## UI
 
+Use a flat, modern visual language rather than simulated hardware: charcoal
+module cards, thin borders, restrained typography, compact controls, and a
+single teal accent for active/current state. Do not use textures, fake lighting,
+screws, or photorealistic knobs.
+
 Display the pedal, amp, and IR modules from top to bottom in signal-chain order.
 Within each module, display controls from left to right:
 
@@ -196,9 +201,12 @@ Within each module, display controls from left to right:
 3. Current model name.
 4. Module control knobs.
 
-Only one model chooser may be open at a time. Opening a chooser closes any
-other chooser and applies its close behavior. If REAPER does not honor
-plugin-driven resizing, the UI may use a fixed or scrollable fallback.
+Only one model chooser may be open at a time. The chooser replaces the entire
+900 by 430 module view instead of resizing the plugin viewport. Its fixed
+header shows the module icon, current model, input/output gain controls (input
+and wet for IR), and a close button. Temporarily enable a bypassed module while
+its chooser is open. Restore its prior bypass state when the chooser closes
+without committing; a successful commit leaves the module enabled.
 
 ### Model chooser
 
@@ -206,6 +214,11 @@ The embedded chooser has two columns similar to the macOS Finder column view:
 
 - Pack: a ZIP file or one-level pack directory.
 - Model: a supported file in that pack.
+
+Show an interactive scrollbar for either column whenever its contents exceed
+the visible rows. Mouse-wheel scrolling over either column moves that column.
+The chooser does not handle arrow, Escape, or Enter keys because they conflict
+with REAPER's host shortcuts.
 
 Scan the selected module directory whenever its chooser opens. Do not use a
 filesystem watcher or scan continuously while the chooser remains open.
@@ -225,16 +238,26 @@ Chooser behavior is:
 - Single-clicking the model already being auditioned is a no-op.
 - Double-clicking a model commits it, regardless of whether it is currently
   being auditioned.
+- Keep the chooser open while a commit load is pending. Return to the main view
+  only after the DSP confirms that the selected model was committed; keep the
+  chooser open and show the model in red if loading fails.
+- A successful commit enables the selected module (bypass off).
 - If the audition processor is already ready, committing promotes it without
   loading it again.
 - Otherwise, commit only after the requested model loads successfully.
-- Show italic pulsing model text while a load is pending; stop on success or
-  failure.
+- Show italic pulsing model text while a model is being auditioned; stop on
+  commit, cancellation, or failure.
 - Closing the chooser without committing a new model restores the current
   model.
 - Closing the plugin UI abandons all auditions and restores current models.
 - Closing REAPER or removing the plugin abandons auditions because audition
   state is never serialized.
+
+Clicking the numeric value below a knob opens direct text entry. Accept signed
+decimal values for input/output gain and values from 0 through 100 for percent
+controls. Enter applies the value and Escape cancels editing.
+
+Double-clicking a knob resets it to its declared default value.
 
 The UI sends distinct audition, commit, and cancel-audition operations so a
 temporary path update cannot accidentally become persistent state.
@@ -297,7 +320,7 @@ Do not install build dependencies on the host.
    - Verify one-level pack directories and root-level ZIP members appear
      identically in the chooser; loose and deeper files do not appear.
 6. **Audition workflow**
-   - Add audition, commit, cancellation, loading feedback, and chooser resizing.
+   - Add audition, commit, cancellation, loading feedback, and chooser takeover.
    - Verify single-click, double-click, chooser close, UI close, and failed-load
      behavior.
 7. **Packaging and REAPER smoke test**

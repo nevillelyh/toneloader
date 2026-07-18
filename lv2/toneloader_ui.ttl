@@ -1,0 +1,13 @@
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix ui: <http://lv2plug.in/ns/extensions/ui#> .
+@prefix urid: <http://lv2plug.in/ns/ext/urid#> .
+
+<urn:neville:toneloader>
+    ui:ui <urn:neville:toneloader#ui> .
+
+<urn:neville:toneloader#ui>
+    a ui:X11UI ;
+    ui:binary <toneloader_ui.so> ;
+    lv2:requiredFeature ui:parent, ui:idleInterface, urid:map ;
+    lv2:optionalFeature ui:fixedSize, ui:noUserResize, ui:resize ;
+    lv2:extensionData ui:idleInterface .
