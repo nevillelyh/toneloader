@@ -54,6 +54,10 @@ make validate    # inspect the bundle with lv2info
 make install     # copy the bundle to ~/.lv2
 ```
 
+Run `scripts/update-fetchcontent.py` to advance the pinned source dependencies
+to the latest commits on their upstream default branches and validate the
+resulting build.
+
 Push any Git tag to build and validate the project, then publish the LV2 bundle
 as a Linux x86-64 tarball on the corresponding GitHub Release.
 
