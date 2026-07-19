@@ -54,6 +54,9 @@ make validate    # inspect the bundle with lv2info
 make install     # copy the bundle to ~/.lv2
 ```
 
+Push any Git tag to build and validate the project, then publish the LV2 bundle
+as a Linux x86-64 tarball on the corresponding GitHub Release.
+
 At runtime the plugin uses the system's libsndfile, Cairo, and X11 shared
 libraries. libzip is included in the LV2 bundle.
 
